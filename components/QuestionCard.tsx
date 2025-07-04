@@ -25,10 +25,11 @@ function QuestionCard({
         Question {currentQuestion} of {totalQuestions}
       </h1>
       <h2>{question}</h2>
+
       <div className={styles.options}>
-        {options.map((option, index) => (
+        {options.map((option) => (
           <button
-            key={index}
+            key={option.value}
             className={styles.optionButton}
             onClick={() => onSelect(option.value)}
           >

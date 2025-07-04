@@ -1,26 +1,28 @@
+// LAYOUT
 .button {
   position: relative;
   margin: auto;
   padding: 12px 18px;
-  transition: all 0.2s ease;
   border: none;
   background: none;
   cursor: pointer;
+  transition: all 0.2s ease;
 }
 
-.button:before {
+// VISUAL
+.button::before {
   content: "";
   position: absolute;
   top: 0;
   left: 0;
-  border-radius: 50px;
-  background: linear-gradient(45deg, #0c0998, #d70b7b);
   width: 45px;
   height: 45px;
-  transition: all 0.3s ease;
+  border-radius: 50px;
+  background: linear-gradient(45deg, #0c0998, #d70b7b);
   display: block;
   overflow: hidden;
   z-index: 1;
+  transition: all 0.3s ease;
 }
 
 .button::after {
@@ -28,50 +30,50 @@
   position: absolute;
   top: 0;
   left: 0;
-  border-radius: 50px;
-  background: #fff;
   width: 9px;
   height: 21px;
+  padding: 12px 18px;
+  border-radius: 50px;
+  background: #fff;
+  text-align: left;
+  white-space: nowrap;
+  z-index: 2;
+  color: transparent;
+  background-clip: text;
+  -webkit-background-clip: text;
   transition: all 0.3s ease;
+
   font-family: "Ubuntu", sans-serif;
   font-size: 18px;
   font-weight: 700;
   letter-spacing: 0.05em;
-  white-space: nowrap;
-  padding: 12px 18px;
-  z-index: 2;
-  color: transparent;
-  -webkit-background-clip: text;
-  background-clip: text;
-  text-align: left;
 }
 
 .button span {
   position: relative;
+  color: #fff;
   font-family: "Ubuntu", sans-serif;
   font-size: 18px;
   font-weight: 700;
   letter-spacing: 0.05em;
-  color: #fff;
 }
 
 .button svg {
   position: relative;
   top: 0;
   margin-left: 10px;
+  z-index: 2;
   fill: none;
-  stroke-linecap: round;
-  stroke-linejoin: round;
   stroke: #fff;
   stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
   transform: translateX(-5px);
   transition: all 0.3s ease;
-  z-index: 2;
 }
 
-.button:hover:before {
-  width: 100%;
-}
+// INTERACTION / ANIMATION
+.button:hover::before,
 .button:hover::after {
   width: 100%;
 }

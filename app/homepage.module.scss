@@ -1,3 +1,4 @@
+// LAYOUT
 .homepage {
   min-height: 100vh;
   display: flex;
@@ -8,17 +9,6 @@
   text-align: center;
 }
 
-.titlecontainer h1 {
-  margin-bottom: 20px;
-  font-size: 4rem;
-  @media (max-width: 768px) {
-    font-size: 3rem;
-  }
-  @media (max-width: 480px) {
-    font-size: 2rem;
-  }
-}
-
 .photogrid {
   display: grid;
   grid-template-columns: repeat(3, auto);
@@ -27,6 +17,21 @@
   margin-bottom: 50px;
 }
 
+// TYPOGRAPHY
+.titlecontainer h1 {
+  margin-bottom: 20px;
+  font-size: 4rem;
+
+  @media (max-width: 768px), (max-width: 480px) {
+    font-size: 3rem;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 2rem;
+  }
+}
+
+// VISUAL
 .image {
   width: 150px;
   height: 150px;
@@ -38,6 +43,7 @@
     width: 120px;
     height: 120px;
   }
+
   @media (max-width: 480px) {
     width: 100px;
     height: 100px;
