@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { memberResults } from "@/data/results";
 import { useRouter } from "next/navigation";
+import { memberResults } from "@/data/results";
 import StartButton from "@/components/StartButton";
 import styles from "./resultpage.module.scss";
 
@@ -11,39 +11,30 @@ export default function ResultPage() {
   const [result, setResult] = useState<string | null>(null);
   const [showResult, setShowResult] = useState(false);
   const router = useRouter();
-  const capitalizeFirst = (str: string) => {
-    if (!str) return "";
-    return str.charAt(0).toUpperCase() + str.slice(1);
-  };
+
+  const capitalizeFirst = (str: string) =>
+    str ? str.charAt(0).toUpperCase() + str.slice(1) : "";
 
   useEffect(() => {
     const storedAnswers = localStorage.getItem("quizAnswers");
+    if (!storedAnswers) return;
 
-    if (storedAnswers) {
-      const answers: string[] = JSON.parse(storedAnswers);
-      const scoreMap: { [key: string]: number } = {};
+    const answers: string[] = JSON.parse(storedAnswers);
+    const scoreMap: Record<string, number> = {};
 
-      answers.forEach((member) => {
-        scoreMap[member] = (scoreMap[member] || 0) + 1;
-      });
+    answers.forEach((member) => {
+      scoreMap[member] = (scoreMap[member] || 0) + 1;
+    });
 
-      let topMember = "";
-      let topScore = 0;
+    const topMember = Object.entries(scoreMap).reduce(
+      (acc, [member, score]) => (score > acc.score ? { member, score } : acc),
+      { member: "", score: 0 }
+    ).member;
 
-      for (const member in scoreMap) {
-        if (scoreMap[member] > topScore) {
-          topScore = scoreMap[member];
-          topMember = member;
-        }
-      }
+    setResult(topMember);
+    localStorage.removeItem("quizAnswers");
 
-      setResult(topMember);
-      localStorage.removeItem("quizAnswers");
-
-      setTimeout(() => {
-        setShowResult(true);
-      }, 2000);
-    }
+    setTimeout(() => setShowResult(true), 2000);
   }, []);
 
   const member = result ? memberResults[result] : null;
@@ -58,11 +49,7 @@ export default function ResultPage() {
             animate={{ opacity: 1 }}
             exit={{ y: -100, opacity: 0 }}
             transition={{ duration: 0.8 }}
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-            }}
+            className={styles.loadingContainer}
           >
             <h1 className={styles.title}>Calculating...</h1>
             <motion.div
@@ -82,20 +69,17 @@ export default function ResultPage() {
             animate={{ y: 0, opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.8 }}
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-            }}
+            className={styles.resultContainer}
           >
-            <h1 className={styles.title}>Your ZB1 Match is...</h1>{" "}
+            <h1 className={styles.title}>Your ZB1 Match is...</h1>
             <img
               src={member.image}
               alt={member.name}
-              className={`
-    ${styles.memberImage}
-    ${member.name.toLowerCase() === "gunwook" ? styles.gunwookSpecial : ""}
-  `}
+              className={`${styles.memberImage} ${
+                member.name.toLowerCase() === "gunwook"
+                  ? styles.gunwookSpecial
+                  : ""
+              }`}
             />
             <h2 className={styles.memberName}>
               {capitalizeFirst(member.name)

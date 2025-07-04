@@ -1,21 +1,24 @@
 "use client";
 
-import QuestionCard from "@/components/QuestionCard";
-import styles from "./quizpage.module.scss";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { AnimatePresence, motion } from "framer-motion";
+
+import QuestionCard from "@/components/QuestionCard";
+import styles from "./quizpage.module.scss";
 import { questions } from "@/data/questions";
 import { shuffleArray } from "@/utils/shuffle";
-import { motion, AnimatePresence } from "framer-motion";
 
 export default function QuizPage() {
+  const router = useRouter();
+
   const [currentIndex, setCurrentIndex] = useState(0);
   const [answers, setAnswers] = useState<string[]>([]);
   const [shuffledQuestions, setShuffledQuestions] = useState<typeof questions>(
     []
   );
-  const router = useRouter();
 
+  // SHUFFLE ANSWERS RANDOMLY
   useEffect(() => {
     const shuffled = questions.map((q) => ({
       ...q,
@@ -24,10 +27,12 @@ export default function QuizPage() {
     setShuffledQuestions(shuffled);
   }, []);
 
-  const handleAnswer = (value: string) => {
+  const handleAnswerSelect = (value: string) => {
     const updatedAnswers = [...answers, value];
 
-    if (currentIndex + 1 < shuffledQuestions.length) {
+    const isLastQuestion = currentIndex + 1 === shuffledQuestions.length;
+
+    if (!isLastQuestion) {
       setAnswers(updatedAnswers);
       setCurrentIndex((prev) => prev + 1);
     } else {
@@ -57,7 +62,7 @@ export default function QuizPage() {
             options={currentQuestion.options}
             currentQuestion={currentIndex + 1}
             totalQuestions={shuffledQuestions.length}
-            onSelect={handleAnswer}
+            onSelect={handleAnswerSelect}
           />
         </motion.div>
       </AnimatePresence>
