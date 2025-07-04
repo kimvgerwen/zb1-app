@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useRouter } from "next/navigation";
+
 import { memberResults } from "@/data/results";
 import StartButton from "@/components/StartButton";
 import styles from "./resultpage.module.scss";
